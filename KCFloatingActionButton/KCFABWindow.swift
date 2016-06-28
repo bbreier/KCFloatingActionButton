@@ -30,7 +30,11 @@ class KCFABWindow: UIWindow {
             if CGRectContainsPoint(fab.frame, point) == true {
                 return true
             }
-            
+            if let contextualButton = fabViewController?.contextualButton {
+                if CGRectContainsPoint(contextualButton.frame, point) == true {
+                    return true
+                }
+            }
             for item in fab.items {
                 let itemFrame = self.convertRect(item.frame, fromView: fab)
                 if CGRectContainsPoint(itemFrame, point) == true {

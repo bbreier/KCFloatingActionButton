@@ -235,10 +235,11 @@ public class KCFloatingActionButton: UIView {
         Items open.
     */
     public func open() {
+        closed = false
             UIView.animateWithDuration(0.7, delay: 0,
                 usingSpringWithDamping: 0.4,
                 initialSpringVelocity: 0.3,
-                options: [.CurveEaseInOut], animations: { () -> Void in
+                options: [.CurveEaseInOut, .AllowUserInteraction], animations: { () -> Void in
                     self.buttonImageView.transform = CGAffineTransformMakeRotation(-self.degreesToRadians(self.rotationDegrees))
                     self.buttonImageView.alpha = 0
                     self.transform = CGAffineTransformMakeScale(0.75, 0.75);
@@ -246,28 +247,26 @@ public class KCFloatingActionButton: UIView {
                     self.plusLayer.opacity = 1
                     self.plusLayer.transform = CATransform3DMakeRotation(-self.degreesToRadians(self.rotationDegrees), 0.0, 0.0, 1.0)
                 }, completion: nil)
-        
-        closed = false
     }
     
     /**
         Items close.
     */
     public func close() {
+        closed = true
             UIView.animateWithDuration(0.7, delay: 0,
                 usingSpringWithDamping: 0.4,
                 initialSpringVelocity: 0.8,
-                options: [], animations: { () -> Void in
+                options: [.CurveEaseInOut, .AllowUserInteraction], animations: { () -> Void in
                     self.plusLayer.transform = CATransform3DMakeRotation(self.degreesToRadians(0), 0.0, 0.0, 1.0)
                     self.buttonImageView.transform = CGAffineTransformMakeRotation(self.degreesToRadians(0))
                     self.transform = CGAffineTransformMakeScale(1, 1);
                     self.buttonImageView.alpha = 1
                     self.plusLayer.opacity = 0
-                }, completion: {(f) -> Void in
-            })
+                }, completion:nil)
         
         fabDelegate?.KCFABClosed?(self)
-        closed = true
+        
     }
     
     /**
@@ -375,41 +374,6 @@ public class KCFloatingActionButton: UIView {
         NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillHideNotification, object: nil)
     }
-    
-//    public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-//        super.touchesBegan(touches, withEvent: event)
-//        if touches.count == 1 {
-//            let touch = touches.first
-//            if touch?.tapCount == 1 {
-//                if touch?.locationInView(self) == nil { return }
-//                setTintLayer()
-//            }
-//        }
-//    }
-//    
-//    public override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-//        super.touchesMoved(touches, withEvent: event)
-//        if touches.count == 1 {
-//            let touch = touches.first
-//            if touch?.tapCount == 1 {
-//                if touch?.locationInView(self) == nil { return }
-//                setTintLayer()
-//            }
-//        }
-//    }
-//    
-//    public override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-//        super.touchesEnded(touches, withEvent: event)
-//        
-//        tintLayer.removeFromSuperlayer()
-//        if touches.count == 1 {
-//            let touch = touches.first
-//            if touch?.tapCount == 1 {
-//                if touch?.locationInView(self) == nil { return }
-//                toggle()
-//            }
-//        }
-//    }
     
     public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if (object as? UIView) == superview && keyPath == "frame" {

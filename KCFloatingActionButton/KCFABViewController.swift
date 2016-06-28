@@ -14,12 +14,14 @@ import UIKit
 class KCFABViewController: UIViewController {
     
     let fab = KCFloatingActionButton()
-
+    let contextualButton = KCFloatingActionButton()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         view.addSubview(fab)
+        view.addSubview(contextualButton)
     }
 
     override func didReceiveMemoryWarning() {

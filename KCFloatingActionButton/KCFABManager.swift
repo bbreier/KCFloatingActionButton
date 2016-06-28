@@ -9,8 +9,8 @@
 import UIKit
 
 /**
-    KCFloatingActionButton dependent on UIWindow.
-*/
+ KCFloatingActionButton dependent on UIWindow.
+ */
 public class KCFABManager: NSObject {
     struct StaticInstance {
         static var dispatchToken: dispatch_once_t = 0
@@ -45,8 +45,14 @@ public class KCFABManager: NSObject {
         }
     }
     
+    var contextualButtonHidden: Bool = false
+    
     public func getButton() -> KCFloatingActionButton {
         return fabController.fab
+    }
+    
+    public func getContextualButton() -> KCFloatingActionButton {
+        return fabController.contextualButton
     }
     
     public func show(animated: Bool = true) {
@@ -77,6 +83,46 @@ public class KCFABManager: NSObject {
             self.hide(animated)
         } else {
             self.show(animated)
+        }
+    }
+    
+    public func hideContextualButton(animated: Bool = true) {
+        if contextualButtonHidden == false {
+            if animated == true {
+                UIView.animateWithDuration(0.7, delay: 0,
+                                           usingSpringWithDamping: 0.4,
+                                           initialSpringVelocity: 0.8,
+                                           options: [.CurveEaseInOut, .AllowUserInteraction], animations: { () -> Void in
+                                            self.fabController.contextualButton.center.y += 100
+                    }, completion:nil)
+            } else {
+                self.fabController.contextualButton.center.y += 100
+            }
+            contextualButtonHidden = true
+        }
+    }
+    
+    public func showContextualButton(animated: Bool = true) {
+        if contextualButtonHidden == true {
+            if animated == true {
+                UIView.animateWithDuration(0.7, delay: 0,
+                                           usingSpringWithDamping: 0.4,
+                                           initialSpringVelocity: 0.8,
+                                           options: [.CurveEaseInOut, .AllowUserInteraction], animations: { () -> Void in
+                                            self.fabController.contextualButton.center.y -= 100
+                    }, completion:nil)
+            } else {
+                self.fabController.contextualButton.center.y -= 100
+            }
+            contextualButtonHidden = false
+        }
+    }
+    
+    public func toggleContextualButton(animated: Bool = true) {
+        if contextualButtonHidden == true {
+            self.showContextualButton(animated)
+        } else {
+            self.hideContextualButton(animated)
         }
     }
     
