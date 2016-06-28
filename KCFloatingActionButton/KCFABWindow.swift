@@ -26,9 +26,6 @@ class KCFABWindow: UIWindow {
     override func pointInside(point: CGPoint, withEvent event: UIEvent?) -> Bool {
         let fabViewController = rootViewController as? KCFABViewController
         if let fab = fabViewController?.fab {
-            if fab.closed == false {
-                return true
-            }
             
             if CGRectContainsPoint(fab.frame, point) == true {
                 return true

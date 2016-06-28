@@ -27,5 +27,12 @@ class KCFABViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.Phone) {
+            return UIInterfaceOrientationMask.Portrait
+        } else {
+            return UIInterfaceOrientationMask.All
+        }
+    }
     
 }
