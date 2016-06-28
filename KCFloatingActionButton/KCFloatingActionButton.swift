@@ -365,14 +365,11 @@ public class KCFloatingActionButton: UIView {
     
     private func setObserver() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(deviceOrientationDidChange(_:)), name: UIDeviceOrientationDidChangeNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillHide(_:)), name:UIKeyboardWillHideNotification, object: nil)
+
     }
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIDeviceOrientationDidChangeNotification, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name:UIKeyboardWillHideNotification, object: nil)
     }
     
     public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
@@ -410,36 +407,6 @@ public class KCFloatingActionButton: UIView {
                 size = min(frame.size.width, frame.size.height)
             }
         }
-    }
-    
-    internal func keyboardWillShow(notification: NSNotification) {
-        guard let keyboardSize = notification.userInfo?[UIKeyboardFrameBeginUserInfoKey]?.CGRectValue.size else { return }
-        
-        if isCustomFrame == false {
-            setRightBottomFrame(keyboardSize.height)
-        } else {
-            size = min(frame.size.width, frame.size.height)
-        }
-        
-        UIView.animateWithDuration(0.2, delay: 0, options: UIViewAnimationOptions.TransitionNone, animations: {
-            self.frame = CGRectMake(
-                UIScreen.mainScreen().bounds.width-self.size-self.paddingX,
-                UIScreen.mainScreen().bounds.height-self.size-self.paddingY - keyboardSize.height,
-                self.size,
-                self.size
-            )
-            }, completion: nil)
-    }
-    
-    internal func keyboardWillHide(notification: NSNotification) {
-        UIView.animateWithDuration(0.2, delay: 0, options: UIViewAnimationOptions.TransitionNone, animations: {
-            if self.isCustomFrame == false {
-                self.setRightBottomFrame()
-            } else {
-                self.size = min(self.frame.size.width, self.frame.size.height)
-            }
-            
-            }, completion: nil)
     }
 }
 
