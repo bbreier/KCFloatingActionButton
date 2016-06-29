@@ -93,12 +93,13 @@ public class KCFABManager: NSObject {
                                            usingSpringWithDamping: 0.4,
                                            initialSpringVelocity: 0.8,
                                            options: [.CurveEaseInOut, .AllowUserInteraction], animations: { () -> Void in
-                                            self.fabController.contextualButton.center.y += 100
+                                            self.fabController.contextualButton.transform = CGAffineTransformMakeTranslation(0, 100)
                     }, completion:nil)
             } else {
                 self.fabController.contextualButton.center.y += 100
             }
             contextualButtonHidden = true
+            self.fabController.contextualButton.isOffScreen = true
         }
     }
     
@@ -109,12 +110,13 @@ public class KCFABManager: NSObject {
                                            usingSpringWithDamping: 0.4,
                                            initialSpringVelocity: 0.8,
                                            options: [.CurveEaseInOut, .AllowUserInteraction], animations: { () -> Void in
-                                            self.fabController.contextualButton.center.y -= 100
+                                            self.fabController.contextualButton.transform = CGAffineTransformMakeTranslation(0, 0)
                     }, completion:nil)
             } else {
                 self.fabController.contextualButton.center.y -= 100
             }
             contextualButtonHidden = false
+            self.fabController.contextualButton.isOffScreen = false
         }
     }
     

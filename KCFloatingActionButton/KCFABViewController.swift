@@ -37,4 +37,8 @@ class KCFABViewController: UIViewController {
         }
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.contextualButton.center.y = self.fab.center.y
+    }
 }

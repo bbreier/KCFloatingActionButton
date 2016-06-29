@@ -36,7 +36,6 @@ public class KCFloatingActionButton: UIView {
             self.setNeedsDisplay()
         }
     }
-    
     /**
         Padding from bottom right of UIScreen or superview.
     */
@@ -112,6 +111,8 @@ public class KCFloatingActionButton: UIView {
     
     public var openAnimationType: KCFABOpenAnimationType = .Pop
     
+    public var isOffScreen: Bool = false
+    
     /**
      Delegate that can be used to learn more about the behavior of the FAB widget.
     */
@@ -151,10 +152,6 @@ public class KCFloatingActionButton: UIView {
     private var isCustomFrame: Bool = false
     
     // MARK: - Initialize
-    
-    public override func setNeedsDisplay() {
-        super.setNeedsDisplay()
-    }
     
     /**
         Initialize with default property.
@@ -346,19 +343,21 @@ public class KCFloatingActionButton: UIView {
     }
     
     private func setRightBottomFrame(keyboardSize: CGFloat = 0) {
+        var offset: CGFloat = isOffScreen ? 100.0 : 0
+        var multiplier: CGFloat = closed ? 1.0 : 0.75
         if superview == nil {
             frame = CGRectMake(
-                UIScreen.mainScreen().bounds.size.width-size-paddingX,
-                UIScreen.mainScreen().bounds.size.height-size-paddingY-keyboardSize,
-                size,
-                size
+                UIScreen.mainScreen().bounds.size.width-(size*multiplier)-(paddingX*(1.0/multiplier)),
+                UIScreen.mainScreen().bounds.size.height-(size*multiplier)-(paddingY*(1.0/multiplier))+offset,
+                (size*multiplier),
+                (size*multiplier)
             )
         } else {
             frame = CGRectMake(
-                superview!.bounds.size.width-size-paddingX,
-                superview!.bounds.size.height-size-paddingY-keyboardSize,
-                size,
-                size
+                superview!.bounds.size.width-(size*multiplier)-(paddingX*(1.0/multiplier)),
+                superview!.bounds.size.height-(size*multiplier)-(paddingY*(1.0/multiplier))+offset,
+                (size*multiplier),
+                (size*multiplier)
             )
         }
     }
